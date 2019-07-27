@@ -1,5 +1,13 @@
-import video, sensor, image, lcd, time, uos
+import sensor
+import image
+import lcd
+import time
+import uos
+import video
+import audio
 from fpioa_manager import *
+from machine import I2C
+from Maix import I2S, GPIO
 
 fm.register(board_info.BUTTON_A, fm.fpioa.GPIO1)
 but_a=GPIO(GPIO.GPIO1, GPIO.IN, GPIO.PULL_UP) #PULL_UP is required here!
@@ -28,6 +36,8 @@ while True:
         lcd.display(img)
 
         if but_a.value() == 0:
+            while but_a.value() != 0:
+                break
             break
 
         if but_b.value() == 0:
@@ -47,9 +57,11 @@ while True:
 
     print(no)
 
-    name = "/sd/" + basename + str(no) + ext
-    v = video.open(name, record=1, interval=200000, quality=50)
-    i = 0
+    nm = "/sd/" + basename + str(no) + ext
+    print(nm)
+#    v = video.open(nm, record=1,　interval=200000, quality=50)
+    v = video.open(nm, record=1)
+
     while True:
         img = sensor.snapshot()
         img_len = v.record(img)
@@ -58,6 +70,8 @@ while True:
         lcd.display(img)
 
         if but_a.value() == 0:
+            while but_a.value() != 0:
+                break
             break
 
     v.record_finish()
