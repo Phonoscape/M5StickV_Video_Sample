@@ -4,7 +4,8 @@ import lcd
 import time
 import uos
 import video
-import audio
+import sys
+
 from fpioa_manager import *
 from machine import I2C
 from Maix import I2S, GPIO
@@ -13,7 +14,7 @@ fm.register(board_info.BUTTON_A, fm.fpioa.GPIO1)
 but_a=GPIO(GPIO.GPIO1, GPIO.IN, GPIO.PULL_UP) #PULL_UP is required here!
 
 fm.register(board_info.BUTTON_B, fm.fpioa.GPIO2)
-but_b=GPIO(GPIO.GPIO1, GPIO.IN, GPIO.PULL_UP) #PULL_UP is required here!
+but_b=GPIO(GPIO.GPIO2, GPIO.IN, GPIO.PULL_UP) #PULL_UP is required here!
 
 lcd.init()
 lcd.rotation(2)
@@ -42,7 +43,7 @@ while True:
 
         if but_b.value() == 0:
             sensor.run(0)
-            sys.extt()
+            sys.exit()
 
     lcd.clear()
 
@@ -61,7 +62,7 @@ while True:
     print(nm)
 #    v = video.open(nm, record=1,　interval=200000, quality=50)
     v = video.open(nm, record=1)
-
+   
     while True:
         img = sensor.snapshot()
         img_len = v.record(img)
