@@ -43,6 +43,7 @@ while True:
 
         if but_b.value() == 0:
             sensor.run(0)
+            lcd.clear()
             sys.exit()
 
     lcd.clear()
